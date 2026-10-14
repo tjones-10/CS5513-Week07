@@ -54,37 +54,59 @@ export async function updateRestaurantImageReference(
   }
 }
 
-/**
- * Helper function for calculating and updating aggregate ratings in a transaction.
- *
- * @param {Transaction} transaction - Active Firestore transaction.
- * @param {DocumentReference} docRef - Restaurant document reference.
- * @param {DocumentReference} newRatingDocument - New review/rating document reference.
- * @param {Object} review - Review data containing rating score.
- */
-// Define helper function to update aggregate rating metrics within a transaction
 const updateWithRating = async (
-  transaction,
-  docRef,
-  newRatingDocument,
-  review
+    transaction,
+    docRef,
+    newRatingDocument,
+    review
 ) => {
-  // Placeholder return for rating aggregation logic
-  return;
+  const restaurant = await transaction.get(docRef);
+  const data = restaurant.data();
+  const newNumRatings = data?.numRatings ? data.numRatings + 1 : 1;
+  const newSumRating = (data?.sumRating || 0) + Number(review.rating);
+  const newAverage = newSumRating / newNumRatings;
+
+  transaction.update(docRef, {
+    numRatings: newNumRatings,
+    sumRating: newSumRating,
+    avgRating: newAverage,
+  });
+
+  transaction.set(newRatingDocument, {
+    ...review,
+    timestamp: Timestamp.fromDate(new Date()),
+  });
 };
 
-/**
- * Adds a new user review and rating to a restaurant's subcollection.
- *
- * @param {Firestore} db - Firestore instance (client or server).
- * @param {string} restaurantId - Restaurant document ID.
- * @param {Object} review - Review payload.
- */
-// Define and export async function to add a review to a restaurant
+
 export async function addReviewToRestaurant(db, restaurantId, review) {
-  // Placeholder return for review submission logic
-  return;
+  if (!restaurantId) {
+    throw new Error("No restaurant ID has been provided.");
+  }
+
+  if (!review) {
+    throw new Error("A valid review has not been provided.");
+  }
+
+  try {
+    const docRef = doc(collection(db, "restaurants"), restaurantId);
+    const newRatingDocument = doc(
+        collection(db, `restaurants/${restaurantId}/ratings`),
+    );
+
+    // corrected line
+    await runTransaction(db, (transaction) =>
+        updateWithRating(transaction, docRef, newRatingDocument, review),
+    );
+  } catch (error) {
+    console.error(
+        "There was an error adding the rating to the restaurant",
+        error,
+    );
+    throw error;
+  }
 }
+
 
 /**
  * Applies filtering and sorting criteria to a Firestore query based on user filter selections.
