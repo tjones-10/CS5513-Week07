@@ -6,20 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "npm run lint:next && npm:lint:prettier",
-    "lint:next": "next lint",
+    "lint": "npm run lint:next && npm run lint:prettier",
+    "lint:next": "eslint .",
     "lint:prettier": "prettier --check --ignore-path .gitignore .",
     "lint:fix": "npm run lint:next -- --fix && npm run lint:prettier -- --write"
   },
   "dependencies": {
-    "@genkit-ai/googleai": "^1.5.0",
-    "cookies-next": "^5.1.0",
-    "firebase": "^11.6.0",
-    "firebase-tools": "^15.33.0",
-    "genkit": "^1.5.0",
-    "next": "16.0.7",
-    "react": "19.2.1",
-    "react-dom": "19.2.1",
+    "@genkit-ai/googleai": "^1.28.0",
+    "cookies-next": "^6.1.1",
+    "firebase": "^13.0.0",
+    "firebase-tools": "^15.34.0",
+    "genkit": "^1.42.0",
+    "next": "^16.4.1",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
     "server-only": "^0.0.1"
   },
   "browser": {
@@ -31,10 +31,48 @@
     "tls": false
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "15.1.6",
+    "@next/eslint-plugin-next": "^14.2.35",
     "eslint": "^8.57.1",
-    "eslint-config-next": "15.1.6",
-    "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.5.3"
+    "eslint-config-next": "^14.2.35",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.10"
+  },
+  "overrides": {
+    "@grpc/grpc-js": "^1.14.6",
+    "@opentelemetry/auto-instrumentations-node": "^0.81.0",
+    "@opentelemetry/core": "^2.12.0",
+    "@opentelemetry/resources": "^2.12.0",
+    "@opentelemetry/sdk-logs": "^0.223.0",
+    "@opentelemetry/sdk-metrics": "^2.12.0",
+    "@opentelemetry/sdk-node": "^0.223.0",
+    "@opentelemetry/sdk-trace-base": "^2.12.0",
+    "@opentelemetry/sdk-trace-node": "^2.12.0",
+    "@opentelemetry/exporter-trace-otlp-grpc": "^0.223.0",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.223.0",
+    "@opentelemetry/exporter-trace-otlp-proto": "^0.223.0",
+    "@opentelemetry/otlp-grpc-exporter-base": "^0.223.0",
+    "@opentelemetry/otlp-exporter-base": "^0.223.0",
+    "@opentelemetry/otlp-transformer": "^0.223.0",
+    "@opentelemetry/exporter-zipkin": "^2.12.0",
+    "@opentelemetry/propagator-b3": "^2.12.0",
+    "@opentelemetry/propagator-jaeger": "^2.12.0",
+    "@opentelemetry/instrumentation-cassandra-driver": "^0.70.0",
+    "@opentelemetry/instrumentation-knex": "^0.65.0",
+    "@opentelemetry/instrumentation-mongoose": "^0.68.0",
+    "@opentelemetry/instrumentation-mysql": "^0.68.0",
+    "@opentelemetry/instrumentation-mysql2": "^0.68.0",
+    "@opentelemetry/instrumentation-pg": "^0.74.0",
+    "@opentelemetry/instrumentation-tedious": "^0.41.0",
+    "uuid": "^11.1.1",
+    "chokidar": "^4.0.3",
+    "glob": "^10.5.0"
+  },
+  "allowScripts": {
+    "protobufjs@6.11.6": true,
+    "protobufjs@7.6.6": true,
+    "esbuild@0.28.2": true,
+    "re2@1.27.0": true,
+    "unrs-resolver@1.12.2": true,
+    "@firebase/util@1.15.3": true
   }
 }
